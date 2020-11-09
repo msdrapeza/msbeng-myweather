@@ -1,45 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>WEATHER UPDATE</title>
-
-<script src="http://code.jquery.com/jquery-3.2.1.min.js"
-intefrity="sha256-hwg4gsxgFZhOsEEamdOVGBf13fyQuiTwlAQgxVSNgta="
-crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Weather Api</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
+<style>
+  *{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: "Nunito",sans-serif;
+  background:linear-gradient(to bottom, #006666 0%, #00ffff 100%);
+}
+
+.input{
+  text-align: center;
+  margin: 100px auto;
+}
+
+input[type="submit"]{
+  padding: 15px 30px;
+  background: #c3112d;
+  border: none;
+  border-radius: 1px;
+  font-family: "Nunito",sans-serif;
+  font-weight:bold;
+  font-size: 20px;
+}
+
+.input input[type="text"]{
+  width: 600px;
+  height: 55px;
+  padding: 5px 10px;
+  background: #e7e7e7;
+  border: none;
+  border-radius: 1px;
+  font-family: "Nunito",sans-serif;
+  font-weight:bold;
+  font-size: 20px;
+}
+
+.card{
+  width: 40%;
+  background: #e7e7e7;
+  height: 40vh;
+  margin: 50px auto;
+  border-radius: 2px;
+}
+
+
+.close{
+  float: right;
+  margin-top: -2px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.card h1{
+  padding: 5px 0;
+  text-align: center;
+}
+
+.card p{
+  text-align: center;
+  margin:50px 0;
+  font-size:20px;
+}
+
+</style>
+
 <body>
+  <!-- <div class="main">
+    <div class="header">
+      <h1>OpenWeatherMap API</h1>
+      <p>Enter any city name in the input box below to get the data</p>
+    </div> -->
+  
+    <div class="input">
+      <input type="text" placeholder="Enter the city" class="input_text">
+      <input type="submit" value="Submit" class="submit">
+    </div>
+  </div>
 
-<input id="city"></input>
-<button id="getWeatherForcast">Get Weather</button>
-<div id="showWeatherForcast"></div>
+  <div class="container">
+    <div class="card">
+      <h1 class="name" id="name"></h1>
+      <p class="temp"></p>
+      <p class="clouds"></p>
+      <p class="desc"></p>
+    </div>
+  </div>
+<script>
+  
+
+var input = document.querySelector('.input_text');
+var main = document.querySelector('#name');
+var temp = document.querySelector('.temp');
+var desc = document.querySelector('.desc');
+var clouds = document.querySelector('.clouds');
+var button= document.querySelector('.submit');
 
 
-<script type="text/javascript">
-  $(document).ready(function() {
-    $("#getWeatherForcast").click(function(){
-      var city = $("#city").val();
-      var key = '6139cb999131cdc8dfd46f4edce94b6d';
+button.addEventListener('click', function(name){
+fetch('https://api.openweathermap.org/data/2.5/weather?q='+input.value+'&appid=6139cb999131cdc8dfd46f4edce94b6d')
+.then(response => response.json())
+.then(data => {
+  var tempValue = data['main']['temp'];
+  var nameValue = data['name'];
+  var descValue = data['weather'][0]['description'];
 
+  main.innerHTML = nameValue;
+  desc.innerHTML = "Desc - "+descValue;
+  temp.innerHTML = "Temp - "+tempValue;
+  input.value ="";
 
-      $.ajax({  
-        url: 'http://api.openweathermap.org/data/2.5/weather',
-        dataType:'json',
-        type:'GET',
-        data:{q:city, appid: key, units: 'metric'},
+})
 
-        success: function(data){
-        	var wf= '';
-        	$.each(data.weather, function(index, val){
-        		wf += '<p><b>' + data.name + "</b><img src="+ val.icon +".png></p>"+
-        		data.main.temp + '&deg;C' + '|' + val.main + ", " + val.description
-        	});
-        	$("#showWeatherForcast").html(wf)
-        }
-      	});
-   	 });
-
-  });
+.catch(err => alert("Wrong city name!"));
+})
 </script>
-
 </body>
 </html>
