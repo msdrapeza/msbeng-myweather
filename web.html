@@ -30,7 +30,7 @@ crossorigin="anonymous"></script>
         success: function(data){
         	var wf='';
         	$.each(data.weather, function(index, val){
-        		wf += '<p><br>' + data.name + "</b><img src="+ val.icon +".png></p>"+
+        		wf += '<p><b>' + data.name + "</b><img src="+ val.icon +".png></p>"+
         		data.main.temp + '&deg;C' + '|' + val.main + "," + val.description
         	});
         	$("#showWeatherForcast").html(wf)
