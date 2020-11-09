@@ -1,45 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>WEATHER UPDATE</title>
+<?php
 
-<script src="http://code.jquery.com/jquery-3.2.1.min.js"
-intefrity="sha256-hwg4gsxgFZhOsEEamdOVGBf13fyQuiTwlAQgxVSNgta="
-crossorigin="anonymous"></script>
-</head>
-<body>
+include_once("web.html");
 
-<input id="city"></input>
-<button id="getWeatherForcast">Get Weather</button>
-<div id="showWeatherForcast"></div>
-
-
-<script type="text/javascript">
-  $(document).ready(function() {
-    $("#getWeatherForcast").click(function(){
-      var city = $("#city").val();
-      var key = '96b3c7729432737ee2e6dce7a4d1e10e';
-
-
-      $.ajax({  
-        url: 'http://api.openweathermap.org/data/2.5/weather',
-        dataType:'json',
-        type:'GET',
-        data:{q:city, appid: key, units: 'metric'},
-
-        success: function(data){
-        	var wf='';
-        	$.each(data.weather, function(index, val){
-        		wf += '<p><br>' + data.name + "</b><img src="+ val.icon +".png></p>"+
-        		data.main.temp + '&deg;C' + '|' + val.main + ", " + val.description
-        	});
-        	$("#showWeatherForcast").html(wf)
-        }
-      	});
-   	 });
-
-  });
-</script>
-
-</body>
-</html>
+?>
